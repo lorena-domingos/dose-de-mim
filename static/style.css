@@ -17,3 +17,7 @@ form {
     flex-direction: column;
     gap: 20px;
 }
+
+.resposta {
+    margin-top: 35px;
+}

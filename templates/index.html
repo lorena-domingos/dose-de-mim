@@ -30,6 +30,22 @@
 
         <input type="submit" value="Enviar">
         </form>
+
+        <div class="resposta">
+            <h2>Entradas do Diário</h2>
+            <ul>
+              {% for d in diarios %}
+                <li><strong>{{ d[0] }}</strong>: {{ d[1] }} {{ d[2] }}</li>
+              {% endfor %}
+            </ul>
+
+            <h2>Registro de Remédios</h2>
+            <ul>
+              {% for r in remedios %}
+                <li><strong>{{ r[0] }}</strong>: {% if r[1] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}</li>
+              {% endfor %}
+            </ul>
+        </div>
     </main>
 </body>
 </html>
