@@ -34,9 +34,13 @@
         <div class="resposta">
             <h2>Entradas do Diário</h2>
             <ul>
-              {% for d in diarios %}
-                <li><strong>{{ d[0] }}</strong>: {{ d[1] }} {{ d[2] }}</li>
-              {% endfor %}
+                {% for id, data, texto, emoji in diarios %}
+                <li>
+                    {{ data }} - {{ emoji }}
+                    <button onclick="openModal`{{ texto | escape }}`">Ler</button>
+                    <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
+                </li>
+                {% endfor %}
             </ul>
 
             <h2>Registro de Remédios</h2>
@@ -46,6 +50,49 @@
               {% endfor %}
             </ul>
         </div>
+
+        <div id="modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <p id="modal-texto"></p>
+                <button onclick="closeModal()">Fechar</button>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal" style="display:none;">
+         <div class="modal-content">
+            <p>Você tem certeza que deseja apagar esta entrada?</p>
+            <button id="confirmDelete">Sim, apagar</button>
+            <button onclick="closeConfirmModal()">Cancelar</button>
+         </div>
+        </div>
+
     </main>
+
+<script>
+  let deleteUrl = "";
+
+  function openModal(texto) {
+    document.getElementById("modal-texto").innerText = texto;
+    document.getElementById("modal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    }
+
+  function askDelete(url) {
+    deleteUrl = url;
+    document.getElementById("confirmModal").style.display = "block";
+  }
+
+  function closeConfirmModal() {
+    document.getElementById("confirmModal").style.display = "none";
+    deleteUrl = "";
+  }
+
+  document.getElementById("confirmDelete").addEventListener("click", function () {
+    window.location.href = deleteUrl;
+  });
+</script>
 </body>
 </html>
