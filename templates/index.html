@@ -3,12 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diário da Alma</title>
+    <title></title>
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <p>
-        Boa noite!
-    </p>
+    <main>
+        <form action="" method="post">
+        <label for="texto">Texto:</label>
+        <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
+
+        <div>
+          <label for="remedio">Tomou o remédio?</label>
+          <input type="checkbox" name="remedio" id="remedio">
+        </div>
+
+        <div>
+          <input type="radio" id="feliz" name="humor" value="feliz">
+          <label for="feliz">😊</label><br>
+
+          <input type="radio" id="medio" name="humor" value="medio">
+          <label for="medio">😐</label><br>
+
+          <input type="radio" id="triste" name="humor" value="triste">
+          <label for="triste">😭</label>
+        </div>
+
+        <input type="submit" value="Enviar">
+  </form>
+</main>
 </body>
 </html>
