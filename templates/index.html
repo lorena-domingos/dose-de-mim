@@ -8,97 +8,70 @@
 </head>
 <body>
     <main>
-        <form action="" method="post">
+      <form method="post">
         <label for="texto">Texto:</label>
         <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
-
+    
         <div>
           <label for="remedio">Tomou o remédio?</label>
           <input type="checkbox" name="remedio" id="remedio">
         </div>
-
-        <div>
+    
+        <div class="humor">
           <input type="radio" id="feliz" name="humor" value="feliz">
           <label for="feliz">😊</label><br>
-
+    
           <input type="radio" id="medio" name="humor" value="medio">
           <label for="medio">😐</label><br>
-
+    
           <input type="radio" id="triste" name="humor" value="triste">
           <label for="triste">😭</label>
         </div>
-
+    
         <input type="submit" value="Enviar">
-        </form>
-
-        <div class="resposta">
-          <div class="conteudo-1">
-            <h2>Entradas do Diário</h2>
-            <ul>
-              {% for id, data, texto, emoji in diarios %}
-              <li>
-                {{ data }} - {{ emoji }}
-                <button onclick="openModal`{{ texto | escape }}`">Ler</button>
-                <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-        
-        
-          <div class="conteudo-2">
-            <h2>Registro de Remédios</h2>
-            <ul>
-              {% for r in remedios %}
-              <li><strong>{{ r[0] }}</strong>: {% if r[1] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}</li>
-              {% endfor %}
-            </ul>
-          </div>
+      </form>
+    
+      <div class="resposta">
+        <div class="conteudo-1">
+          <h2>Entradas do Diário</h2>
+          <ul>
+            {% for id, data, texto, emoji in diarios %}
+            <li>
+              {{ data }} - {{ emoji }}
+              <button onclick="openModal`{{ texto | escape }}`">Ler</button>
+              <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
-          
-            
-        <div id="modal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <p id="modal-texto"></p>
-                <button onclick="closeModal()">Fechar</button>
-            </div>
+    
+    
+        <div class="conteudo-2">
+          <h2>Registro de Remédios</h2>
+          <ul>
+            {% for r in remedios %}
+            <li><strong>{{ r[0] }}</strong>: {% if r[1] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}</li>
+            {% endfor %}
+          </ul>
         </div>
-
-        <div id="confirmModal" class="modal" style="display:none;">
-         <div class="modal-content">
-            <p>Você tem certeza que deseja apagar esta entrada?</p>
-            <button id="confirmDelete">Sim, apagar</button>
-            <button onclick="closeConfirmModal()">Cancelar</button>
-         </div>
+      </div>
+    
+      <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <p id="modal-texto"></p>
+          <button onclick="closeModal()">Fechar</button>
         </div>
-
+      </div>
+    
+      <div id="confirmModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <p>Você tem certeza que deseja apagar esta entrada?</p>
+          <button id="confirmDelete">Sim, apagar</button>
+          <button onclick="closeConfirmModal()">Cancelar</button>
+        </div>
+      </div>
     </main>
 
-<script>
-  let deleteUrl = "";
-
-  function openModal(texto) {
-    document.getElementById("modal-texto").innerText = texto;
-    document.getElementById("modal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("modal").style.display = "none";
-    }
-
-  function askDelete(url) {
-    deleteUrl = url;
-    document.getElementById("confirmModal").style.display = "block";
-  }
-
-  function closeConfirmModal() {
-    document.getElementById("confirmModal").style.display = "none";
-    deleteUrl = "";
-  }
-
-  document.getElementById("confirmDelete").addEventListener("click", function () {
-    window.location.href = deleteUrl;
-  });
-</script>
+    <script src="../static/script.js"></script>
 </body>
 </html>

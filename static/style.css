@@ -12,13 +12,27 @@ main {
     height: 100vh;
 }
 
+/* Formulário */
+
 form {
+    width: 450px;
+
     display: flex;
     flex-direction: column;
     gap: 20px;
-
     border: 2px solid black;
 }
+
+form input {
+  align-self: center;
+}
+
+.humor {
+      display: flex;
+    justify-content: center;
+}
+
+/* Lista de Diários e Remédios */
 
 .resposta {
   display: flex;
@@ -44,19 +58,26 @@ form {
   background: rgba(0,0,0,0.7);
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1;
 }
 
-.modal-content {
+.modal-content, .confirmModal {
   background: white;
   padding: 1rem;
   border-radius: 8px;
   max-width: 400px;
   text-align: center;
+  width: 300px;
+  height: auto;
 }
 
 .modal.show {
   display: flex;
+}
+
+#modal-texto {
+  overflow-y: scroll;
+  height: 350px;
 }
 
 
