@@ -11,7 +11,7 @@
       <div class="formulario">
         <form class="form_diario" action="/add_diario" method="post">
           <label for="texto">Texto:</label>
-          <textarea name="texto" id="texto" cols="30" rows="10" required="True"></textarea>
+          <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
       
           <div class="humor">
             <input type="radio" id="feliz" name="humor" value="feliz">
@@ -24,15 +24,12 @@
             <label for="triste">😭</label>
           </div>
       
-          <input type="submit" value="Enviar diário">
-        </form>
-      
-        <form class="form_remedio" action="/add_remedio" method="post">
           <div class="remedio">
             <label for="remedio">Tomou o remédio?</label>
             <input type="checkbox" name="remedio" id="remedio">
           </div>
-          <input class="btn-remedio" type="submit" value="Enviar remédio">
+          
+          <input class="btn-diario" type="submit" value="Enviar">
         </form>
       </div>
     
@@ -42,8 +39,12 @@
           <ul>
             {% for id, data, texto, emoji in diarios %}
             <li>
-              {{ data }} - {{ emoji }}
-              <button onclick="openModal`{{ texto | escape }}`">Ler</button>
+              {% if emoji %}
+              {{ emoji }} - {{ data }}
+              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
+              {% else %}
+              {{ data }}
+              {% endif %}
               <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
             </li>
             {% endfor %}
@@ -55,7 +56,7 @@
           <h2>Registro de Remédios</h2>
           <ul>
             {% for r in remedios %}
-            <li><strong>{{ r[1] }}</strong>: {% if r[2] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}
+            <li><strong>{{ r[1] }}</strong>: ✅ Tomou
               <a href="javascript:void(0);" onclick="askDelete(`/delete_remedio/{{ r[0] }}`)">Apagar</a>
             </li>
             {% endfor %}

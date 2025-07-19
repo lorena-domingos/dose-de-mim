@@ -17,30 +17,35 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
     db = get_db()
-    diarios = db.execute("SELECT id, data, texto, emoji FROM diario ORDER BY id DESC").fetchall()
+    diarios = db.execute("SELECT id, data, COALESCE(texto, '') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
     remedios = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
 
     return render_template("index.html", diarios=diarios, remedios=remedios)
-
-@app.route("/add_remedio", methods=["POST"])
-def add_remedio():
-    tomou = 'remedio' in request.form
-    db = get_db()
-    db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
-    db.commit()
-    return redirect("/")
 
 @app.route("/add_diario", methods=["POST"])
 def add_diario():
     texto = request.form.get("texto")
     humor = request.form.get("humor")
-    if not texto or not humor:
-        return "Preencha os campos", 400
+    tomou = 'remedio' in request.form
+
     db = get_db()
-    db.execute("INSERT INTO diario (texto, emoji) VALUES (?, ?)", (texto, humor))
+
+    if texto and humor:
+        db.execute("INSERT INTO diario (texto, emoji) VALUES (?, ?)", (texto, humor))
+    elif humor:
+        db.execute("INSERT INTO diario (emoji) VALUES (?)", (humor,))
+    elif texto:
+        db.execute("INSERT INTO diario (texto) VALUES (?)", (texto,))
+
+    if tomou:
+        db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
+
+    if not texto and not humor and not tomou:
+        return "Preencha pelo menos um campo!", 400
+
     db.commit()
     return redirect("/")
 
