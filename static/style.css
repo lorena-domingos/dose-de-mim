@@ -14,13 +14,32 @@ main {
 
 /* Formulário */
 
-form {
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid black;
+    border-radius: 0.5em;
+
+    padding: 10px;
+}
+
+.form_diario, .form_remedio {
     width: 450px;
 
     display: flex;
     flex-direction: column;
     gap: 20px;
-    border: 2px solid black;
+}
+
+.remedio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-remedio {
+  margin-bottom: 20px;
 }
 
 form input {
@@ -46,6 +65,8 @@ form input {
 
 .conteudo-1, .conteudo-2 {
     border: 2px solid black;
+    border-radius: 0.5em;
+    padding: 10px;
 }
 
 .modal {

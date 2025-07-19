@@ -8,28 +8,33 @@
 </head>
 <body>
     <main>
-      <form method="post">
-        <label for="texto">Texto:</label>
-        <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
-    
-        <div>
-          <label for="remedio">Tomou o remédio?</label>
-          <input type="checkbox" name="remedio" id="remedio">
-        </div>
-    
-        <div class="humor">
-          <input type="radio" id="feliz" name="humor" value="feliz">
-          <label for="feliz">😊</label><br>
-    
-          <input type="radio" id="medio" name="humor" value="medio">
-          <label for="medio">😐</label><br>
-    
-          <input type="radio" id="triste" name="humor" value="triste">
-          <label for="triste">😭</label>
-        </div>
-    
-        <input type="submit" value="Enviar">
-      </form>
+      <div class="formulario">
+        <form class="form_diario" action="/add_diario" method="post">
+          <label for="texto">Texto:</label>
+          <textarea name="texto" id="texto" cols="30" rows="10" required="True"></textarea>
+      
+          <div class="humor">
+            <input type="radio" id="feliz" name="humor" value="feliz">
+            <label for="feliz">😊</label>
+      
+            <input type="radio" id="medio" name="humor" value="medio">
+            <label for="medio">😐</label>
+      
+            <input type="radio" id="triste" name="humor" value="triste">
+            <label for="triste">😭</label>
+          </div>
+      
+          <input type="submit" value="Enviar diário">
+        </form>
+      
+        <form class="form_remedio" action="/add_remedio" method="post">
+          <div class="remedio">
+            <label for="remedio">Tomou o remédio?</label>
+            <input type="checkbox" name="remedio" id="remedio">
+          </div>
+          <input class="btn-remedio" type="submit" value="Enviar remédio">
+        </form>
+      </div>
     
       <div class="resposta">
         <div class="conteudo-1">
