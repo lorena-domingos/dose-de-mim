@@ -50,7 +50,9 @@
           <h2>Registro de Remédios</h2>
           <ul>
             {% for r in remedios %}
-            <li><strong>{{ r[0] }}</strong>: {% if r[1] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}</li>
+            <li><strong>{{ r[1] }}</strong>: {% if r[2] == 1 %}✅ Tomou{% else %}❌ Não tomou{% endif %}
+              <a href="javascript:void(0);" onclick="askDelete(`/delete_remedio/{{ r[0] }}`)">Apagar</a>
+            </li>
             {% endfor %}
           </ul>
         </div>

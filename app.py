@@ -36,7 +36,7 @@ def index():
 
     db = get_db()
     diarios = db.execute("SELECT id, data, texto, emoji FROM diario ORDER BY id DESC").fetchall()
-    remedios = db.execute("SELECT data, tomou FROM remedio ORDER BY id DESC").fetchall()
+    remedios = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
 
     return render_template("index.html", diarios=diarios, remedios=remedios)
 
@@ -45,6 +45,13 @@ def index():
 def delete_diario(id):
     db = get_db()
     db.execute("DELETE FROM diario WHERE id = ?", (id,))
+    db.commit()
+    return redirect("/")
+
+@app.route("/delete_remedio/<int:id>")
+def delete_remedio(id):
+    db = get_db()
+    db.execute("DELETE FROM remedio WHERE id = ?", (id,))
     db.commit()
     return redirect("/")
 
