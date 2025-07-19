@@ -5,9 +5,9 @@
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
     align-items: center;
     height: 100vh;
 }
@@ -16,10 +16,22 @@ form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    border: 2px solid black;
 }
 
 .resposta {
-    margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.resposta ul li {
+  list-style-type: none;
+}
+
+.conteudo-1, .conteudo-2 {
+    border: 2px solid black;
 }
 
 .modal {
@@ -45,4 +57,11 @@ form {
 
 .modal.show {
   display: flex;
+}
+
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
 }
