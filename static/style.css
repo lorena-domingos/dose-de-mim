@@ -4,6 +4,27 @@
     box-sizing: border-box;
 }
 
+body {
+  background: url(./img/light_cloud.png);
+  background-size: cover;
+  background-repeat: repeat-x;
+  background-color: #60c7c7;
+
+  animation: nuvensAnimadas 65s linear infinite;
+}
+
+body.dark-mode {
+  background: url(./img/dark_cloud.png);
+  background-size: cover;
+  background-repeat: repeat-x;
+  animation: nuvensAnimadas 65s linear infinite;
+}
+
+@keyframes nuvensAnimadas {
+  0% { background-position: 0 0; }
+  100% { background-position: -1000px 0; }
+}
+
 main {
     display: grid;
     grid-template-columns: 850px 350px;

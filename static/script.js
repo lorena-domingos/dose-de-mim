@@ -27,11 +27,13 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
 sun.addEventListener("click", function () {
     if (sun.classList.contains("active")) {
         sun.classList.remove("active");
-        document.body.style.backgroundColor = "#ffffffff";
+        document.body.style.backgroundColor = "#60c7c7";
         document.body.style.color = "#000";
+        document.body.classList.remove("dark-mode");
     } else {
         sun.classList.add("active");
-        document.body.style.backgroundColor = "#333";
+        document.body.style.backgroundColor = "#0a004cff";
         document.body.style.color = "#fff";
+        document.body.classList.add("dark-mode");
     }
 });
