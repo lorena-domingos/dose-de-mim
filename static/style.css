@@ -155,7 +155,7 @@ form input {
 }
 
 #modal-texto {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 350px;
 }
 
@@ -164,11 +164,15 @@ form input {
   width: 100px;
   height: 100px;
   background-color: yellow;
-  
+  border-radius: 50%;
 
   position: absolute;
   top: 20px;
   right: 80px;
+}
+
+.sun.active {
+  background-color: #ffffff;
 }
 
 .formulario,
