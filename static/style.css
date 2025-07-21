@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+    --default-font: "Press Start 2P", system-ui;
+}
+
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+
+    font-family: var(--default-font);
 }
 
 body {
@@ -42,7 +50,7 @@ main {
     border: 2px solid black;
     border-radius: 0.5em;
 
-    padding: 10px;
+    padding: 20px;
 }
 
 .form_diario, .form_remedio {
@@ -61,6 +69,8 @@ main {
 
 .btn-diario {
   margin-bottom: 20px;
+  padding: 10px;
+  border: double 10px #10d1f7;
 }
 
 form input {
@@ -133,6 +143,21 @@ form input {
   top: 20px;
   right: 80px;
 }
+
+.formulario,
+.conteudo-1,
+.conteudo-2 {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+body.dark-mode .formulario,
+body.dark-mode .conteudo-1,
+body.dark-mode .conteudo-2 {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: #eee;
+}
+
 
 
 @media (max-width: 768px) {

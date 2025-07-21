@@ -1,5 +1,6 @@
 let deleteUrl = "";
 let sun = document.querySelector(".sun");
+let botaoEnviar = document.querySelector(".btn-diario");
 
 function openModal(texto) {
     document.getElementById("modal-texto").innerText = texto;
@@ -30,10 +31,12 @@ sun.addEventListener("click", function () {
         document.body.style.backgroundColor = "#60c7c7";
         document.body.style.color = "#000";
         document.body.classList.remove("dark-mode");
+        botaoEnviar.style.border = "double 10px #10d1f7";
     } else {
         sun.classList.add("active");
         document.body.style.backgroundColor = "#0a004cff";
         document.body.style.color = "#fff";
         document.body.classList.add("dark-mode");
+        botaoEnviar.style.border = "double 10px blue";
     }
 });
