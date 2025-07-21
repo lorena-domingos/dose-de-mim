@@ -53,6 +53,11 @@ main {
     padding: 20px;
 }
 
+textarea {
+  resize: none;
+  padding: 10px;
+}
+
 .form_diario, .form_remedio {
     width: 450px;
 
@@ -73,13 +78,20 @@ main {
   border: double 10px #10d1f7;
 }
 
+button {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: double 10px #10d1f7;
+}
+
 form input {
   align-self: center;
 }
 
 .humor {
-      display: flex;
+    display: flex;
     justify-content: center;
+    font-size: 19px;
 }
 
 /* Lista de Diários e Remédios */
@@ -99,6 +111,20 @@ form input {
     border: 2px solid black;
     border-radius: 0.5em;
     padding: 10px;
+    font-size: 0.8rem;
+
+    width: 480px;
+    height: 170px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    overflow-y: auto;
+}
+
+.conteudo-1 h2, .conteudo-2 h2 {
+    margin-bottom: 20px;
 }
 
 .modal {
@@ -138,6 +164,7 @@ form input {
   width: 100px;
   height: 100px;
   background-color: yellow;
+  
 
   position: absolute;
   top: 20px;
@@ -146,14 +173,16 @@ form input {
 
 .formulario,
 .conteudo-1,
-.conteudo-2 {
+.conteudo-2,
+.modal-content {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
 }
 
 body.dark-mode .formulario,
 body.dark-mode .conteudo-1,
-body.dark-mode .conteudo-2 {
+body.dark-mode .conteudo-2,
+body.dark-mode .modal-content {
   background-color: rgba(0, 0, 0, 0.5);
   border-color: #eee;
 }
