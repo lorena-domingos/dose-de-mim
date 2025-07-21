@@ -17,8 +17,8 @@
             <input type="radio" id="feliz" name="humor" value="feliz">
             <label for="feliz">😊</label>
       
-            <input type="radio" id="medio" name="humor" value="medio">
-            <label for="medio">😐</label>
+            <input type="radio" id="medio" name="humor" value="médio">
+            <label for="médio">😐</label>
       
             <input type="radio" id="triste" name="humor" value="triste">
             <label for="triste">😭</label>
@@ -29,7 +29,7 @@
             <input type="checkbox" name="remedio" id="remedio">
           </div>
           
-          <input class="btn-diario" type="submit" value="Enviar">
+          <button type="submit" value="Enviar">Enviar</button>
         </form>
       </div>
     
@@ -40,7 +40,7 @@
             {% for id, data, texto, emoji in diarios %}
             <li>
               {% if emoji %}
-              {{ emoji }} - {{ data }}
+              {{ emoji | title }} - {{ data }}
               <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
               {% else %}
               {{ data }}

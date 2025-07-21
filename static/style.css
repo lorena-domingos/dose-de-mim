@@ -17,6 +17,7 @@ body {
   background-size: cover;
   background-repeat: repeat-x;
   background-color: #60c7c7;
+  color: black;
 
   animation: nuvensAnimadas 65s linear infinite;
 }
@@ -25,6 +26,8 @@ body.dark-mode {
   background: url(./img/dark_cloud.png);
   background-size: cover;
   background-repeat: repeat-x;
+  background-color: #0a004cff;
+  color: white;
   animation: nuvensAnimadas 65s linear infinite;
 }
 
@@ -72,20 +75,16 @@ textarea {
   gap: 10px;
 }
 
-.btn-diario {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: double 10px #10d1f7;
-}
-
 button {
+  align-self: center;
   margin-bottom: 20px;
   padding: 10px;
   border: double 10px #10d1f7;
+  cursor: pointer;
 }
 
-form input {
-  align-self: center;
+body.dark-mode button {
+  border: double 10px blue;
 }
 
 .humor {
@@ -114,13 +113,19 @@ form input {
     font-size: 0.8rem;
 
     width: 480px;
-    height: 170px;
+    height: 220px;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
     overflow-y: auto;
+}
+
+.conteudo-1 ul, .conteudo-2 ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .conteudo-1 h2, .conteudo-2 h2 {
@@ -146,8 +151,11 @@ form input {
   border-radius: 8px;
   max-width: 400px;
   text-align: center;
-  width: 300px;
   height: auto;
+}
+
+.modal-content > p {
+  margin-bottom: 20px;
 }
 
 .modal.show {

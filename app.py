@@ -20,7 +20,7 @@ def close_connection(exception):
 @app.route("/", methods=["GET"])
 def index():
     db = get_db()
-    diarios = db.execute("SELECT id, data, COALESCE(texto, '') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
+    diarios = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
     remedios = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
 
     return render_template("index.html", diarios=diarios, remedios=remedios)
