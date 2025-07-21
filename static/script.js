@@ -1,4 +1,5 @@
 let deleteUrl = "";
+let sun = document.querySelector(".sun");
 
 function openModal(texto) {
     document.getElementById("modal-texto").innerText = texto;
@@ -21,4 +22,16 @@ function closeConfirmModal() {
 
 document.getElementById("confirmDelete").addEventListener("click", function () {
     window.location.href = deleteUrl;
+});
+
+sun.addEventListener("click", function () {
+    if (sun.classList.contains("active")) {
+        sun.classList.remove("active");
+        document.body.style.backgroundColor = "#ffffffff";
+        document.body.style.color = "#000";
+    } else {
+        sun.classList.add("active");
+        document.body.style.backgroundColor = "#333";
+        document.body.style.color = "#fff";
+    }
 });
