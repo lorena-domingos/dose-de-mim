@@ -84,8 +84,18 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: rgba(199, 199, 199, 0.133);
+  transition: all 0.2s linear;
+}
+
 body.dark-mode button {
   border: double 10px var(--black-mode-button);
+}
+
+body.dark-mode button:hover {
+  background-color: rgba(212, 212, 212, 0.099);
+  color: var(--black-mode-text-border);
 }
 
 .humor {
