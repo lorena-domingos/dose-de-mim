@@ -46,7 +46,8 @@ def add_diario():
         db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
 
     if not texto and not humor and not tomou:
-        return "Preencha pelo menos um campo!", 400
+        flash("Preencha pelo menos um campo!", "erro")
+        return redirect("/")
 
     db.commit()
     flash('Entrada registrada com sucesso!')
