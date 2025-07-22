@@ -2,6 +2,7 @@ let deleteUrl = "";
 let sun = document.querySelector(".sun");
 let botao = document.querySelectorAll("button");
 let botaoEnviar = document.querySelector(".btn-diario");
+let sunToMoon = document.querySelector(".sun");
 
 window.addEventListener("DOMContentLoaded", () => {
   const modoSalvo = localStorage.getItem("modo");
@@ -37,6 +38,14 @@ function closeConfirmModal() {
 
 document.getElementById("confirmDelete").addEventListener("click", function () {
     window.location.href = deleteUrl;
+});
+
+sunToMoon.addEventListener("click", function () {
+    if (sunToMoon.src.includes("new_sun.png")) {
+        sunToMoon.src = "../static/img/moon.png";
+    } else {
+        sunToMoon.src = "../static/img/new_sun.png";
+    }
 });
 
 sun.addEventListener("click", function () {
