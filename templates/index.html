@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Dose de Mim 💊</title>
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
@@ -63,7 +64,8 @@
           </ul>
         </div>
       </div>
-    
+     
+      <!-- Modais -->
       <div id="modal" class="modal" style="display: none;">
         <div class="modal-content">
           <p id="modal-texto"></p>
@@ -79,6 +81,7 @@
         </div>
       </div>
 
+      <!-- Mensagem de Confirmação -->
       {% with mensagens = get_flashed_messages() %}
       {% if mensagens %}
       <div class="mensagem-sucesso">
@@ -89,8 +92,7 @@
 
     </main>
 
-    <img class="sun" src="../static/img/new_sun.png" alt="">
-    <!-- <div class="sun-2"></div> -->
+    <img class="sun" src="../static/img/new_sun.png">
 
     <script src="../static/script.js"></script>
 </body>
