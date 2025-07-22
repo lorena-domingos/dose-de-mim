@@ -38,7 +38,7 @@ body.dark-mode {
 
 main {
     display: grid;
-    grid-template-columns: 850px 350px;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
     height: 100vh;
@@ -227,7 +227,34 @@ body.dark-mode .modal-content {
   border-color: #eee;
 }
 
+.mensagem-sucesso {
+  color: #155724;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 15px auto;
+  width: fit-content;
+  animation: fadeOut 5s forwards;
+}
 
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}
+
+body.dark-mode .mensagem-sucesso {
+  background-color: #343a40;
+  color: #d4edda;
+  border-color: #495057;
+}
 
 @media (max-width: 768px) {
   main {

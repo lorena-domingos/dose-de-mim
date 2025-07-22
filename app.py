@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, flash
 import sqlite3
 
 app = Flask(__name__)
 DATABASE = 'database.db'
+
+app.secret_key = 'uma_senha_forte'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -47,6 +49,7 @@ def add_diario():
         return "Preencha pelo menos um campo!", 400
 
     db.commit()
+    flash('Entrada registrada com sucesso!')
     return redirect("/")
 
 @app.route("/delete_diario/<int:id>")

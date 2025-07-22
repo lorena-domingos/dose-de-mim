@@ -7,15 +7,18 @@ let sunToMoon = document.querySelector(".sun");
 window.addEventListener("DOMContentLoaded", () => {
   const modoSalvo = localStorage.getItem("modo");
 
-  if (modoSalvo === "dark") {
-    document.body.classList.add("dark-mode");
-    sun.classList.add("active");
-
-    botoes.forEach((btn) => {
-      btn.style.border = "double 10px blue";
-    });
-  }
-});
+    if (modoSalvo === "dark") {
+        document.body.classList.add("dark-mode");
+        sun.classList.add("active");
+        sun.src = "../static/img/moon.png"
+        botoes.forEach((btn) => {
+            btn.style.border = "double 10px blue";
+        });
+    } else {
+        sun.src = "../static/img/new_sun.png";
+    }
+}
+);
 
 function openModal(texto) {
     document.getElementById("modal-texto").innerText = texto;
