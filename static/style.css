@@ -2,13 +2,18 @@
 
 :root {
     --default-font: "Press Start 2P", system-ui;
+    --white-mode-color: #60c7c7;
+    --black-mode-color: #0a004cff;
+    --white-mode-text-border: #000;
+    --black-mode-text-border: #fff;
+    --black-mode-button: #0000ff;
 }
 
+/* Reset CSS */
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
     font-family: var(--default-font);
 }
 
@@ -16,9 +21,8 @@ body {
   background: url(./img/light_cloud.png);
   background-size: cover;
   background-repeat: repeat-x;
-  background-color: #60c7c7;
-  color: black;
-
+  background-color: var(--white-mode-color);
+  color: var(--white-mode-text-border);
   animation: nuvensAnimadas 65s linear infinite;
 }
 
@@ -26,8 +30,8 @@ body.dark-mode {
   background: url(./img/dark_cloud.png);
   background-size: cover;
   background-repeat: repeat-x;
-  background-color: #0a004cff;
-  color: white;
+  background-color: var(--black-mode-color);
+  color: var(--black-mode-text-border);
   animation: nuvensAnimadas 65s linear infinite;
 }
 
@@ -45,14 +49,12 @@ main {
 }
 
 /* Formulário */
-
 .formulario {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    border: 2px solid black;
+    border: 2px solid var(--white-mode-text-border);
     border-radius: 0.5em;
-
     padding: 20px;
 }
 
@@ -63,7 +65,6 @@ textarea {
 
 .form_diario, .form_remedio {
     width: 450px;
-
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -79,12 +80,12 @@ button {
   align-self: center;
   margin-bottom: 20px;
   padding: 10px;
-  border: double 10px #10d1f7;
+  border: double 10px var(--white-mode-color);
   cursor: pointer;
 }
 
 body.dark-mode button {
-  border: double 10px blue;
+  border: double 10px var(--black-mode-button);
 }
 
 .humor {
@@ -94,7 +95,6 @@ body.dark-mode button {
 }
 
 /* Lista de Diários e Remédios */
-
 .resposta {
   display: flex;
   flex-direction: column;
@@ -107,14 +107,12 @@ body.dark-mode button {
 }
 
 .conteudo-1, .conteudo-2 {
-    border: 2px solid black;
+    border: 2px solid var(--white-mode-text-border);
     border-radius: 0.5em;
     padding: 10px;
     font-size: 0.8rem;
-
     width: 480px;
     height: 220px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -166,8 +164,7 @@ body.dark-mode button {
   overflow-y: auto;
   height: 350px;
 }
-
-
+/* Sol e Lua (Dark Mode) */
 .sun {
   width: 100px;
   height: 100px;
@@ -185,19 +182,6 @@ body.dark-mode button {
   transition: all 0.4s ease-in-out;
 }
 
-
-/* .sun-2 {
-  width: 125px;
-  height: 125px;
-  background-color: transparent;
-  border-radius: 50%;
-  position: absolute;
-  top: 18px;
-  right: 67px;
-  z-index: -1;
-  animation: rotateBorder 7s linear infinite;
-} */
-
 @keyframes rotateBorder {
   0% {
     transform: rotate(0turn);
@@ -206,10 +190,6 @@ body.dark-mode button {
     transform: rotate(1turn);
   }
 }
-
-/* .sun.active {
-  background-color: #ffffff;
-} */
 
 .formulario,
 .conteudo-1,
@@ -228,7 +208,7 @@ body.dark-mode .modal-content {
 }
 
 .mensagem-sucesso {
-  color: #155724;
+  color: #296f3a;
   position: fixed;
   top: 10%;
   left: 50%;
