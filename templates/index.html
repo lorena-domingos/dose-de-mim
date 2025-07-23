@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dose de Mim 💊</title>
-    <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <main>
-      <div class="formulario">
+      <div class="bloco-1">
+        <div class="formulario">
         <form class="form_diario" action="/add_diario" method="post">
           <label for="texto">Texto:</label>
           <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
@@ -32,7 +32,30 @@
           
           <button type="submit" value="Enviar">Enviar</button>
         </form>
+
+        
       </div>
+
+      <div class="conteudo-3">
+        <div class="conteudo-1">
+          <h2>Entradas do Diário</h2>
+          <ul>
+            {% for id, data, texto, emoji in diarios %}
+            <li>
+              {% if emoji %}
+              {{ emoji | title }} - {{ data }}
+              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
+              {% else %}
+              {{ data }}
+              {% endif %}
+              <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      </div>
+      
     
       <div class="resposta">
         <div class="conteudo-1">
@@ -63,6 +86,10 @@
             {% endfor %}
           </ul>
         </div>
+
+        </div>
+
+        
       </div>
      
       <!-- Modais -->
