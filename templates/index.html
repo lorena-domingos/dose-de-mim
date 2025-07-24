@@ -37,21 +37,25 @@
       </div>
 
       <div class="conteudo-3">
-        <div class="conteudo-1">
-          <h2>Entradas do Diário</h2>
+        <div class="conteudo-1" id="medicamentos">
+          <h2>Medicamentos</h2>
           <ul>
-            {% for id, data, texto, emoji in diarios %}
-            <li>
-              {% if emoji %}
-              {{ emoji | title }} - {{ data }}
-              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
-              {% else %}
-              {{ data }}
-              {% endif %}
-              <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
-            </li>
-            {% endfor %}
-          </ul>
+            <form action="/add_medicamento" method="post">
+              <div class="inputs">
+                <input type="text" name="texto" placeholder="Nome do medicamento" required>
+                <input type="number" name="quantidade" id="quantidade" placeholder="Quantidade" required>
+              </div>
+              <button type="submit">Adicionar</button>
+            </form>
+
+            <ul>
+              {% for id, texto, quantidade in medicamentos %}
+              <li>
+                {{ texto | title}} - {{ quantidade}} unidades
+                <a href="javascript:void(0);" onclick="askDelete('/delete_medicamento/{{ id }}')">Apagar</a>
+              </li>
+              {% endfor %}
+            </ul>
         </div>
       </div>
       </div>

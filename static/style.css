@@ -50,6 +50,25 @@ main {
     text-align: center;
 }
 
+#quantidade {
+  text-align: center;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.inputs:last-of-type {
+  margin-bottom: 20px;
+}
+
+#medicamentos {
+  width: 515px;
+}
+
 /* bloco-1 */
 .bloco-1 {
     display: flex;

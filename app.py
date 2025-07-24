@@ -24,8 +24,9 @@ def index():
     db = get_db()
     diarios = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
     remedios = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
+    medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
 
-    return render_template("index.html", diarios=diarios, remedios=remedios)
+    return render_template("index.html", diarios=diarios, remedios=remedios, medicamentos=medicamentos)
 
 @app.route("/add_diario", methods=["POST"])
 def add_diario():
@@ -64,6 +65,22 @@ def delete_diario(id):
 def delete_remedio(id):
     db = get_db()
     db.execute("DELETE FROM remedio WHERE id = ?", (id,))
+    db.commit()
+    return redirect("/")
+
+@app.route("/add_medicamento", methods=["POST"])
+def add_medicamento():
+    texto = request.form["texto"]
+    quantidade = request.form["quantidade"]
+    db = get_db()
+    db.execute("INSERT INTO medicamentos (texto, quantidade) VALUES (?, ?)", (texto, quantidade))
+    db.commit()
+    return redirect("/")
+
+@app.route("/delete_medicamento/<int:id>")
+def delete_medicamento(id):
+    db = get_db()
+    db.execute("DELETE FROM medicamentos WHERE id = ?", (id,))
     db.commit()
     return redirect("/")
 
