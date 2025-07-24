@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash
 import sqlite3
+import os
 
 app = Flask(__name__)
 DATABASE = 'database.db'
 
 app.secret_key = 'uma_senha_forte'
+
+def init_db():
+    if not os.path.exists(DATABASE):
+        with sqlite3.connect(DATABASE) as conn:
+            conn.execute('CREATE TABLE IF NOT EXISTS diario (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, emoji TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+            conn.execute('CREATE TABLE IF NOT EXISTS remedio (id INTEGER PRIMARY KEY AUTOINCREMENT, tomou INTEGER, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+            conn.execute('CREATE TABLE IF NOT EXISTS medicamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, quantidade INTEGER)')
+            conn.commit()
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -85,4 +94,5 @@ def delete_medicamento(id):
     return redirect("/")
 
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
