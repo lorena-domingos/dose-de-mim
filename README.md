@@ -56,11 +56,13 @@ Veja todas as dependências no arquivo `requirements.txt`.
 * [ ] Melhorar estilo e responsividade
 
 
-## Agradecimntos ❤️
+## ❤️ Agradecimentos 
 
-Meu amigo Tom por sempre acreditar em mim e me ajudar a arrumar essa documentação no futuro que fiz ❤️
+Meu amigo Tom por sempre acreditar em mim e me ajudar a arrumar essa documentação no futuro que fiz. ❤️
 
-Meu amigo Vice que fez esse sol e lua maravilhosos que rodam sem parar. ☀️
+Meu colega [Vice](https://poeiraeestelar.blogspot.com/) que fez esse sol e lua maravilhosos que rodam sem parar. ☀️
+
+## 🎨 Outros Materiais Utilizados
 
 Nuvens: https://free-game-assets.itch.io/free-sky-with-clouds-background-pixel-art-set
 
