@@ -66,15 +66,16 @@
         <div class="conteudo-1">
           <h2>Entradas do Diário</h2>
           <ul>
-            {% for id, data, texto, emoji in diarios %}
+            {% for d in diarios %}
             <li>
-              {% if emoji %}
-              {{ emoji | title }} - {{ data }}
+              {% if d.emoji %}
+              {{ d.emoji | title }} - {{ d.data }}
               <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
               {% else %}
-              {{ data }}
+              {{ d.data }}
+              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
               {% endif %}
-              <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ id }}')">Apagar</a>
+              <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ d.id }}')">Apagar</a>
             </li>
             {% endfor %}
           </ul>
@@ -85,8 +86,8 @@
           <h2>Registro de Remédios</h2>
           <ul>
             {% for r in remedios %}
-            <li><strong>{{ r[1] }}</strong>: ✅ Tomou
-              <a href="javascript:void(0);" onclick="askDelete(`/delete_remedio/{{ r[0] }}`)">Apagar</a>
+            <li><strong>{{r.data}}</strong> | ✅ Tomou
+              <a href="javascript:void(0);" onclick="askDelete(`/delete_remedio/{{ r.id }}`)">Apagar</a>
             </li>
             {% endfor %}
           </ul>
@@ -114,18 +115,18 @@
       </div>
 
       <!-- Mensagem de Confirmação -->
-      {% with mensagens = get_flashed_messages() %}
-      {% if mensagens %}
-      <div class="mensagem-sucesso">
-        {{ mensagens[0] }}
-      </div>
-      {% endif %}
-      {% endwith %}
+<!--      {% with mensagens = get_flashed_messages() %}-->
+<!--      {% if mensagens %}-->
+<!--      <div class="mensagem-sucesso">-->
+<!--        {{ mensagens[0] }}-->
+<!--      </div>-->
+<!--      {% endif %}-->
+<!--      {% endwith %}-->
 
       <!-- Mensagem de Erro -->
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% for category, message in messages %}
-      <div class="mensagem-sucesso">{{ message }}</div>
+      <div class="mensagem-{{ category }}">{{ message }}</div>
       {% endfor %}
       {% endwith %}
 

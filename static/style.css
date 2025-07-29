@@ -260,6 +260,43 @@ body.dark-mode .modal-content {
   animation: fadeOut 5s forwards;
 }
 
+.mensagem-erro {
+  color: #296f3a;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 15px auto;
+  width: fit-content;
+  animation: fadeOut 5s forwards;
+}
+
+.mensagem-info {
+  color: #296f3a;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 15px auto;
+  width: fit-content;
+  animation: fadeOut 5s forwards;
+}
+
+
+
+
 @keyframes fadeOut {
   0% { opacity: 1; }
   80% { opacity: 1; }

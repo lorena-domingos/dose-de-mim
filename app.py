@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, g, flash
 import sqlite3
-import os
+import os, time
+from datetime import datetime
 
 app = Flask(__name__)
 DATABASE = 'database.db'
@@ -31,8 +32,30 @@ def close_connection(exception):
 @app.route("/", methods=["GET"])
 def index():
     db = get_db()
-    diarios = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
-    remedios = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
+
+    remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
+    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
+
+    remedios = []
+    if remedios_db:
+        for r in remedios_db:
+            id, data, tomou = r
+            data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            new_data = data_obj.strftime('%d/%m/%Y')
+            remedios.append({"id": id, "data": new_data, "tomou": tomou})
+    else:
+        remedios = []
+
+    diarios = []
+    if diarios_db:
+        for d in diarios_db:
+            id, data, texto, emoji = d
+            data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            new_data = data_obj.strftime('%d/%m/%Y')
+            diarios.append({"id": id, "data": new_data, "texto": texto, "emoji": emoji})
+    else:
+        diarios = []
+
     medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
 
     return render_template("index.html", diarios=diarios, remedios=remedios, medicamentos=medicamentos)
@@ -45,22 +68,43 @@ def add_diario():
 
     db = get_db()
 
+    erro = False
+
+    texto_diario = False
+
     if texto and humor:
         db.execute("INSERT INTO diario (texto, emoji) VALUES (?, ?)", (texto, humor))
+        texto_diario = True
     elif humor:
         db.execute("INSERT INTO diario (emoji) VALUES (?)", (humor,))
+        texto_diario = True
     elif texto:
         db.execute("INSERT INTO diario (texto) VALUES (?)", (texto,))
-
+        texto_diario = True
     if tomou:
-        db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
+        tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE('now')").fetchone()
+        if tomou_remedio:
+            erro = True
+        else:
+            db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
 
     if not texto and not humor and not tomou:
         flash("Preencha pelo menos um campo!", "erro")
         return redirect("/")
 
+    if not erro:
+        flash('Entrada registrada com sucesso!', "sucesso")
+
+    if texto_diario and erro:
+        flash("Diário salvo! Mas o remédio já foi registrado hoje.", "info")
+    elif erro:
+        flash("Você já registrou hoje!", "erro")
+    elif texto_diario or tomou:
+        flash("Entrada registrada com sucesso!", "sucesso")
+
+    # remedio == erro
+
     db.commit()
-    flash('Entrada registrada com sucesso!')
     return redirect("/")
 
 @app.route("/delete_diario/<int:id>")
@@ -95,4 +139,5 @@ def delete_medicamento(id):
 
 if __name__ == "__main__":
     init_db()
+    time.sleep(5)
     app.run(debug=True)
