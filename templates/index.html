@@ -12,19 +12,8 @@
       <div class="bloco-1">
         <div class="formulario">
         <form class="form_diario" action="/add_diario" method="post">
-          <label for="texto">Texto:</label>
+          <label class="label-texto" for="texto">Diário</label>
           <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
-      
-          <div class="humor">
-            <input type="radio" id="feliz" name="humor" value="feliz">
-            <label for="feliz">😊</label>
-      
-            <input type="radio" id="medio" name="humor" value="médio">
-            <label for="médio">😐</label>
-      
-            <input type="radio" id="triste" name="humor" value="triste">
-            <label for="triste">😭</label>
-          </div>
       
           <div class="remedio">
             <label for="remedio">Tomou o remédio?</label>
@@ -70,10 +59,10 @@
             <li>
               {% if d.emoji %}
               {{ d.emoji | title }} - {{ d.data }}
-              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
+              <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
               {% else %}
               {{ d.data }}
-              <button onclick="openModal(`{{ texto | escape }}`)">Ler</button>
+              <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
               {% endif %}
               <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ d.id }}')">Apagar</a>
             </li>
@@ -132,7 +121,7 @@
 
     </main>
 
-    <img class="sun" src="../static/img/new_sun.png">
+    <img class="sun" src="../static/img/sun.png">
 
     <script src="../static/script.js"></script>
 </body>

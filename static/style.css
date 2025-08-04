@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
 :root {
-    --default-font: "Press Start 2P", system-ui;
+    --default-font: "Quicksand", sans-serif;
     --white-mode-color: #60c7c7;
     --black-mode-color: #0a004cff;
     --white-mode-text-border: #000;
@@ -105,14 +105,16 @@ textarea {
 button {
   align-self: center;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 7px 25px;
   border: double 10px var(--white-mode-color);
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 button:hover {
   background-color: rgba(199, 199, 199, 0.133);
-  transition: all 0.2s linear;
+  transition: all 0.1s linear;
 }
 
 body.dark-mode button {
@@ -122,6 +124,10 @@ body.dark-mode button {
 body.dark-mode button:hover {
   background-color: rgba(212, 212, 212, 0.099);
   color: var(--black-mode-text-border);
+}
+
+textarea {
+  font-weight: 600;
 }
 
 .humor {
@@ -140,6 +146,7 @@ body.dark-mode button:hover {
 
 .resposta ul li {
   list-style-type: none;
+  font-size: 1.1rem;
 }
 
 .conteudo-1, .conteudo-2 {
@@ -156,6 +163,14 @@ body.dark-mode button:hover {
     overflow-y: auto;
 }
 
+.conteudo-3 ul li {
+  font-size: 1.1rem;
+}
+
+.conteudo-3 input {
+  padding: 7px;
+}
+
 .conteudo-1 ul, .conteudo-2 ul {
     display: flex;
     flex-direction: column;
@@ -164,6 +179,12 @@ body.dark-mode button:hover {
 
 .conteudo-1 h2, .conteudo-2 h2 {
     margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.label-texto {
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .modal {

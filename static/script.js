@@ -15,7 +15,7 @@ window.addEventListener("DOMContentLoaded", () => {
             btn.style.border = "double 10px blue";
         });
     } else {
-        sun.src = "../static/img/new_sun.png";
+        sun.src = "../static/img/sun.png";
     }
 }
 );
@@ -44,10 +44,10 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
 });
 
 sunToMoon.addEventListener("click", function () {
-    if (sunToMoon.src.includes("new_sun.png")) {
+    if (sunToMoon.src.includes("sun.png")) {
         sunToMoon.src = "../static/img/moon.png";
     } else {
-        sunToMoon.src = "../static/img/new_sun.png";
+        sunToMoon.src = "../static/img/sun.png";
     }
 });
 
