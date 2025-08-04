@@ -56,7 +56,7 @@ Veja todas as dependências no arquivo `requirements.txt`.
 * [ ] Senha
 * [ ] Filtrar entradas por data
 * [ ] Melhorar estilo e responsividade
-* [ ] Remover entrada de emoji no banco de dados
+* [x] Remover entrada de emoji no banco de dados
 
 
 

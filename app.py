@@ -11,7 +11,7 @@ app.secret_key = 'uma_senha_forte'
 def init_db():
     if not os.path.exists(DATABASE):
         with sqlite3.connect(DATABASE) as conn:
-            conn.execute('CREATE TABLE IF NOT EXISTS diario (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, emoji TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+            conn.execute('CREATE TABLE IF NOT EXISTS diario (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
             conn.execute('CREATE TABLE IF NOT EXISTS remedio (id INTEGER PRIMARY KEY AUTOINCREMENT, tomou INTEGER, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
             conn.execute('CREATE TABLE IF NOT EXISTS medicamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, quantidade INTEGER)')
             conn.commit()
@@ -34,7 +34,7 @@ def index():
     db = get_db()
 
     remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
-    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto, emoji FROM diario ORDER BY id DESC").fetchall()
+    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY id DESC").fetchall()
 
     remedios = []
     if remedios_db:
@@ -49,10 +49,10 @@ def index():
     diarios = []
     if diarios_db:
         for d in diarios_db:
-            id, data, texto, emoji = d
+            id, data, texto = d
             data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
             new_data = data_obj.strftime('%d/%m/%Y')
-            diarios.append({"id": id, "data": new_data, "texto": texto, "emoji": emoji})
+            diarios.append({"id": id, "data": new_data, "texto": texto})
     else:
         diarios = []
 
@@ -63,7 +63,6 @@ def index():
 @app.route("/add_diario", methods=["POST"])
 def add_diario():
     texto = request.form.get("texto")
-    humor = request.form.get("humor")
     tomou = 'remedio' in request.form
 
     db = get_db()
@@ -72,13 +71,7 @@ def add_diario():
 
     texto_diario = False
 
-    if texto and humor:
-        db.execute("INSERT INTO diario (texto, emoji) VALUES (?, ?)", (texto, humor))
-        texto_diario = True
-    elif humor:
-        db.execute("INSERT INTO diario (emoji) VALUES (?)", (humor,))
-        texto_diario = True
-    elif texto:
+    if texto:
         db.execute("INSERT INTO diario (texto) VALUES (?)", (texto,))
         texto_diario = True
     if tomou:
@@ -88,7 +81,7 @@ def add_diario():
         else:
             db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
 
-    if not texto and not humor and not tomou:
+    if not texto and not tomou:
         flash("Preencha pelo menos um campo!", "erro")
         return redirect("/")
 

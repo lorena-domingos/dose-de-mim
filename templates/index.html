@@ -57,8 +57,8 @@
           <ul>
             {% for d in diarios %}
             <li>
-              {% if d.emoji %}
-              {{ d.emoji | title }} - {{ d.data }}
+              {% if d.texto %}
+              {{ d.data | title }}
               <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
               {% else %}
               {{ d.data }}
