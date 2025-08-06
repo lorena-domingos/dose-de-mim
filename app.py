@@ -40,7 +40,11 @@ def index():
     if remedios_db:
         for r in remedios_db:
             id, data, tomou = r
-            data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            try:
+                data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                data_obj = datetime.strptime(data, '%Y-%m-%d')
+
             new_data = data_obj.strftime('%d/%m/%Y')
             remedios.append({"id": id, "data": new_data, "tomou": tomou})
     else:
@@ -50,7 +54,11 @@ def index():
     if diarios_db:
         for d in diarios_db:
             id, data, texto = d
-            data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            try:
+                data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                data_obj = datetime.strptime(data, '%Y-%m-%d')
+
             new_data = data_obj.strftime('%d/%m/%Y')
             diarios.append({"id": id, "data": new_data, "texto": texto})
     else:
@@ -64,6 +72,7 @@ def index():
 def add_diario():
     texto = request.form.get("texto")
     tomou = 'remedio' in request.form
+    data = request.form.get("data")
 
     db = get_db()
 
@@ -72,14 +81,14 @@ def add_diario():
     texto_diario = False
 
     if texto:
-        db.execute("INSERT INTO diario (texto) VALUES (?)", (texto,))
+        db.execute("INSERT INTO diario (texto, data) VALUES (?, ?)", (texto, data))
         texto_diario = True
-    if tomou:
-        tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE('now')").fetchone()
+    if tomou and data:
+        tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE(?)", (data,)).fetchone()
         if tomou_remedio:
             erro = True
         else:
-            db.execute("INSERT INTO remedio (tomou) VALUES (?)", (tomou,))
+            db.execute("INSERT INTO remedio (tomou, data) VALUES (?, ?)", (tomou, data))
 
     if not texto and not tomou:
         flash("Preencha pelo menos um campo!", "erro")
@@ -88,7 +97,7 @@ def add_diario():
     if not erro:
         flash('Entrada registrada com sucesso!', "sucesso")
 
-    if texto_diario and erro:
+    if texto_diario and erro and data:
         flash("Diário salvo! Mas o remédio já foi registrado hoje.", "info")
     elif erro:
         flash("Você já registrou hoje!", "erro")
