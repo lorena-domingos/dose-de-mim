@@ -40,13 +40,17 @@ def index():
     if remedios_db:
         for r in remedios_db:
             id, data, tomou = r
-            try:
-                data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
-            except ValueError:
-                data_obj = datetime.strptime(data, '%Y-%m-%d')
+            if data != "":
+                try:
+                    data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+                except ValueError:
+                    data_obj = datetime.strptime(data, '%Y-%m-%d')
 
-            new_data = data_obj.strftime('%d/%m/%Y')
-            remedios.append({"id": id, "data": new_data, "tomou": tomou})
+                new_data = data_obj.strftime('%d/%m/%Y')
+                remedios.append({"id": id, "data": new_data, "tomou": tomou})
+
+            else:
+                data_obj = None
     else:
         remedios = []
 
@@ -54,13 +58,17 @@ def index():
     if diarios_db:
         for d in diarios_db:
             id, data, texto = d
-            try:
-                data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
-            except ValueError:
-                data_obj = datetime.strptime(data, '%Y-%m-%d')
+            if data != "":
+                try:
+                    data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
+                except ValueError:
+                    data_obj = datetime.strptime(data, '%Y-%m-%d')
 
-            new_data = data_obj.strftime('%d/%m/%Y')
-            diarios.append({"id": id, "data": new_data, "texto": texto})
+                new_data = data_obj.strftime('%d/%m/%Y')
+                diarios.append({"id": id, "data": new_data, "texto": texto})
+
+            else:
+                data_obj = None
     else:
         diarios = []
 
@@ -80,12 +88,15 @@ def add_diario():
 
     texto_diario = False
 
+    if not data or data.strip() == "":
+        data = datetime.now().strftime("%Y-%m-%d")
+
     if texto:
         db.execute("INSERT INTO diario (texto, data) VALUES (?, ?)", (texto, data))
         texto_diario = True
     if tomou and data:
         tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE(?)", (data,)).fetchone()
-        if tomou_remedio:
+        if tomou_remedio and not data:
             erro = True
         else:
             db.execute("INSERT INTO remedio (tomou, data) VALUES (?, ?)", (tomou, data))
