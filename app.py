@@ -96,7 +96,7 @@ def add_diario():
         texto_diario = True
     if tomou and data:
         tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE(?)", (data,)).fetchone()
-        if tomou_remedio and not data:
+        if tomou_remedio:
             erro = True
         else:
             db.execute("INSERT INTO remedio (tomou, data) VALUES (?, ?)", (tomou, data))
@@ -108,7 +108,7 @@ def add_diario():
     if not erro:
         flash('Entrada registrada com sucesso!', "sucesso")
 
-    if texto_diario and erro and data:
+    if texto_diario and erro:
         flash("Diário salvo! Mas o remédio já foi registrado hoje.", "info")
     elif erro:
         flash("Você já registrou hoje!", "erro")
