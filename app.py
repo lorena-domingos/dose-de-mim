@@ -1,90 +1,35 @@
-from flask import Flask, render_template, request, url_for, redirect, g, flash
-import sqlite3
-import os, time
-from datetime import datetime
+from flask import Flask, render_template, request, url_for, redirect, flash
+import time
+import utils
+import config
 
 app = Flask(__name__)
-DATABASE = 'database.db'
-
 app.secret_key = 'uma_senha_forte'
 
-def init_db():
-    if not os.path.exists(DATABASE):
-        with sqlite3.connect(DATABASE) as conn:
-            conn.execute('CREATE TABLE IF NOT EXISTS diario (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
-            conn.execute('CREATE TABLE IF NOT EXISTS remedio (id INTEGER PRIMARY KEY AUTOINCREMENT, tomou INTEGER, data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
-            conn.execute('CREATE TABLE IF NOT EXISTS medicamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, quantidade INTEGER)')
-            conn.commit()
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE, timeout=10)
-        db.row_factory = sqlite3.Row
-    return db
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+config.init_app(app)
 
 @app.route("/", methods=["GET"])
 def index():
     editando = request.args.get('editando')
     editando = int(editando) if editando else None
-    db = get_db()
-
+    
+    db = config.get_db()
+    
     remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
     diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY id DESC").fetchall()
-
-    remedios = []
-    if remedios_db:
-        for r in remedios_db:
-            id, data, tomou = r
-            if data != "":
-                try:
-                    data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
-                except ValueError:
-                    data_obj = datetime.strptime(data, '%Y-%m-%d')
-
-                new_data = data_obj.strftime('%d/%m/%Y')
-                remedios.append({"id": id, "data": new_data, "tomou": tomou})
-
-            else:
-                data_obj = None
-    else:
-        remedios = []
-
-    diarios = []
-    if diarios_db:
-        for d in diarios_db:
-            id, data, texto = d
-            if data != "":
-                try:
-                    data_obj = datetime.strptime(data, "%Y-%m-%d %H:%M:%S")
-                except ValueError:
-                    data_obj = datetime.strptime(data, '%Y-%m-%d')
-
-                new_data = data_obj.strftime('%d/%m/%Y')
-                diarios.append({"id": id, "data": new_data, "texto": texto})
-
-            else:
-                data_obj = None
-    else:
-        diarios = []
-
+    remedios, diarios = utils.format_data(remedios_db, diarios_db)
+    
     medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
 
     return render_template("index.html", diarios=diarios, remedios=remedios, medicamentos=medicamentos, editando=editando)
 
 @app.route("/add_diario", methods=["POST"])
 def add_diario():
-    texto = request.form.get("texto")
+    texto = request.form.get("texto", "").strip()
     tomou = 'remedio' in request.form
     data = request.form.get("data")
 
-    db = get_db()
+    db = config.get_db()
 
     remedio = False
 
@@ -122,44 +67,44 @@ def add_diario():
 
 @app.route("/delete_diario/<int:id>")
 def delete_diario(id):
-    db = get_db()
+    db = config.get_db()
     db.execute("DELETE FROM diario WHERE id = ?", (id,))
     db.commit()
     return redirect(url_for("index"))
 
 @app.route("/delete_remedio/<int:id>")
 def delete_remedio(id):
-    db = get_db()
+    db = config.get_db()
     db.execute("DELETE FROM remedio WHERE id = ?", (id,))
     db.commit()
     return redirect(url_for("index"))
 
 @app.route("/add_medicamento", methods=["POST"])
 def add_medicamento():
-    texto = request.form["texto"]
-    quantidade = request.form["quantidade"]
-    db = get_db()
+    texto = request.form.get("texto", "").strip()
+    quantidade = request.form.get("quantidade", "").strip()
+    db = config.get_db()
     db.execute("INSERT INTO medicamentos (texto, quantidade) VALUES (?, ?)", (texto, quantidade))
     db.commit()
     return redirect(url_for("index"))
 
 @app.route("/delete_medicamento/<int:id>")
 def delete_medicamento(id):
-    db = get_db()
+    db = config.get_db()
     db.execute("DELETE FROM medicamentos WHERE id = ?", (id,))
     db.commit()
     return redirect(url_for("index"))
 
 @app.route("/atualizar/<int:id>", methods=["POST"])
 def atualizar_diario(id):
-    novo_texto = request.form["texto"]
+    novo_texto = request.form.get("texto", "").strip()
     
-    db = get_db()
+    db = config.get_db()
     db.execute("UPDATE diario SET texto = ? WHERE id = ?", (novo_texto, id))
     db.commit()
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    init_db()
+    config.init_db()
     time.sleep(5)
     app.run(debug=True)
