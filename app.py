@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, g, flash
+from flask import Flask, render_template, request, url_for, redirect, g, flash
 import sqlite3
 import os, time
 from datetime import datetime
@@ -31,6 +31,8 @@ def close_connection(exception):
 
 @app.route("/", methods=["GET"])
 def index():
+    editando = request.args.get('editando')
+    editando = int(editando) if editando else None
     db = get_db()
 
     remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
@@ -74,7 +76,7 @@ def index():
 
     medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
 
-    return render_template("index.html", diarios=diarios, remedios=remedios, medicamentos=medicamentos)
+    return render_template("index.html", diarios=diarios, remedios=remedios, medicamentos=medicamentos, editando=editando)
 
 @app.route("/add_diario", methods=["POST"])
 def add_diario():
@@ -84,7 +86,7 @@ def add_diario():
 
     db = get_db()
 
-    erro = False
+    remedio = False
 
     texto_diario = False
 
@@ -97,7 +99,7 @@ def add_diario():
     if tomou and data:
         tomou_remedio = db.execute("SELECT id FROM remedio WHERE DATE(data) = DATE(?)", (data,)).fetchone()
         if tomou_remedio:
-            erro = True
+            remedio = True
         else:
             db.execute("INSERT INTO remedio (tomou, data) VALUES (?, ?)", (tomou, data))
 
@@ -105,34 +107,32 @@ def add_diario():
         flash("Preencha pelo menos um campo!", "erro")
         return redirect("/")
 
-    if not erro:
+    if not remedio:
         flash('Entrada registrada com sucesso!', "sucesso")
 
-    if texto_diario and erro:
+    if texto_diario and remedio:
         flash("Diário salvo! Mas o remédio já foi registrado hoje.", "info")
-    elif erro:
+    elif remedio:
         flash("Você já registrou hoje!", "erro")
     elif texto_diario or tomou:
         flash("Entrada registrada com sucesso!", "sucesso")
 
-    # remedio == erro
-
     db.commit()
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/delete_diario/<int:id>")
 def delete_diario(id):
     db = get_db()
     db.execute("DELETE FROM diario WHERE id = ?", (id,))
     db.commit()
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/delete_remedio/<int:id>")
 def delete_remedio(id):
     db = get_db()
     db.execute("DELETE FROM remedio WHERE id = ?", (id,))
     db.commit()
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/add_medicamento", methods=["POST"])
 def add_medicamento():
@@ -141,14 +141,23 @@ def add_medicamento():
     db = get_db()
     db.execute("INSERT INTO medicamentos (texto, quantidade) VALUES (?, ?)", (texto, quantidade))
     db.commit()
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/delete_medicamento/<int:id>")
 def delete_medicamento(id):
     db = get_db()
     db.execute("DELETE FROM medicamentos WHERE id = ?", (id,))
     db.commit()
-    return redirect("/")
+    return redirect(url_for("index"))
+
+@app.route("/atualizar/<int:id>", methods=["POST"])
+def atualizar_diario(id):
+    novo_texto = request.form["texto"]
+    
+    db = get_db()
+    db.execute("UPDATE diario SET texto = ? WHERE id = ?", (novo_texto, id))
+    db.commit()
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     init_db()

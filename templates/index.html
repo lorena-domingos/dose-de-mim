@@ -59,18 +59,25 @@
           <ul>
             {% for d in diarios %}
             <li>
-              {% if d.texto %}
-              {{ d.data | title }}
-              <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
+              {% if d.id == editando %}
+              <form method="POST" action="{{ url_for('atualizar_diario', id=d.id) }}">
+                <!-- <input type="hidden" name="data" value="{{ d.data }}"> -->
+                <textarea name="texto" rows="4" cols="50">{{ d.texto }}</textarea><br>
+                <button type="submit">Salvar</button>
+                <a href="{{ url_for('index') }}">Cancelar</a>
+              </form>
               {% else %}
               {{ d.data }}
               <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
-              {% endif %}
+              <a href="{{ url_for('index', editando=d.id) }}">Editar</a>
               <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ d.id }}')">Apagar</a>
+              {% endif %}
             </li>
             {% endfor %}
           </ul>
         </div>
+      </div>
+
     
     
         <div class="conteudo-2">
