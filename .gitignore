@@ -2,3 +2,4 @@
 /database.db-journal
 database.db
 .idea/discord.xml
+.env
