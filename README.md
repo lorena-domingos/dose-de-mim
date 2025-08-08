@@ -6,9 +6,9 @@ Esse é um app web feito com Flask onde você pode registrar seus sentimentos, h
 
 ## 🌟 Funcionalidades
 
-- Adicionar entradas no diário com emoji de humor
 - Marcar se tomou o remédio ou não
 - Visualizar histórico de entradas
+- Editar entradas no diário
 - Excluir entradas quando quiser
 - 💊 Adicionar medicamentos
 
