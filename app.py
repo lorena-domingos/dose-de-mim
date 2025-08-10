@@ -107,12 +107,14 @@ def atualizar_diario(id):
     db.commit()
     return redirect(url_for("index"))
 
-@app.route("/api/diarios", methods=["GET"])
+@app.route("/api/dados", methods=["GET"])
 def api_diarios():
     db = config.get_db()
     diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY data DESC").fetchall()
+    remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY data DESC").fetchall()
     diarios = [{"id": d["id"], "date": d["data"], "texto": d["texto"]} for d in diarios_db]
-    return jsonify(diarios)
+    remedios = [{"data": r["data"], "tomou": r["tomou"]} for r in remedios_db]
+    return jsonify({"diarios":diarios, "remedios":remedios})
 
 @app.route('/calendario')
 def serve_calendario():
