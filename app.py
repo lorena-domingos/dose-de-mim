@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, jsonify, send_from_directory
+from flask_cors import CORS
 from datetime import datetime
 import time
 import utils
 import config
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 app.secret_key = 'uma_senha_forte'
+CORS(app)
 
 config.init_app(app)
 
@@ -16,8 +18,8 @@ def index():
     
     db = config.get_db()
     
-    remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY id DESC").fetchall()
-    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY id DESC").fetchall()
+    remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY data DESC").fetchall()
+    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY data DESC").fetchall()
     remedios, diarios = utils.format_data(remedios_db, diarios_db)
     
     medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
@@ -104,6 +106,21 @@ def atualizar_diario(id):
     db.execute("UPDATE diario SET texto = ? WHERE id = ?", (novo_texto, id))
     db.commit()
     return redirect(url_for("index"))
+
+@app.route("/api/diarios", methods=["GET"])
+def api_diarios():
+    db = config.get_db()
+    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY data DESC").fetchall()
+    diarios = [{"id": d["id"], "date": d["data"], "texto": d["texto"]} for d in diarios_db]
+    return jsonify(diarios)
+
+@app.route('/calendario')
+def serve_calendario():
+    return send_from_directory('static/calendario', 'index.html')
+
+@app.route('/<path:path>')
+def static_files(path):
+    return send_from_directory(app.static_folder, path)
 
 if __name__ == "__main__":
     config.init_db()

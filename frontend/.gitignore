@@ -1,17 +1,3 @@
-/instrucoes.sql
-/database.db-journal
-database.db
-.idea/discord.xml
-.env
-
-# React
-/frontend/node_modules
-/frontend/coverage
-/frontend/build
-/frontend/.cache
-/frontend/.pnp
-/frontend/.pnp.js
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -35,5 +21,3 @@ database.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-database.db-shm
-database.db-wal
