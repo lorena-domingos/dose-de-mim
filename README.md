@@ -8,6 +8,7 @@ Esse é um app web feito com Flask onde você pode registrar seus sentimentos, h
 
 - Marcar se tomou o remédio ou não
 - Visualizar histórico de entradas
+    - Agora com um espaço separado e com a possibilidade de edição dos diários para um melhor conforto.
 - Editar entradas no diário
 - Excluir entradas quando quiser
 - 💊 Adicionar medicamentos
