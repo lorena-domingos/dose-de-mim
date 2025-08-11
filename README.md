@@ -2,7 +2,9 @@
 
 Esse é um app web feito com Flask onde você pode registrar seus sentimentos, humor e se tomou ou não o remédio do dia. Ele também salva um pequeno diário pra você se cuidar com carinho.
 
-![Screenshot do Projeto](img.png)
+![Screenshot do Projeto](./screenshots/img.png)
+![Screenshot do Projeto](./screenshots/img-2.png)
+![Screenshot do Projeto](./screenshots/img-3.png)
 
 ## 🌟 Funcionalidades
 
