@@ -19,7 +19,7 @@ def index():
     db = config.get_db()
     
     remedios_db = db.execute("SELECT id, data, tomou FROM remedio ORDER BY data DESC").fetchall()
-    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY data DESC").fetchall()
+    diarios_db = db.execute("SELECT id, data, COALESCE(texto, 'Sem conteúdo') as texto FROM diario ORDER BY data DESC, id DESC").fetchall()
     remedios, diarios = utils.format_data(remedios_db, diarios_db)
     
     medicamentos = db.execute("SELECT id, texto, quantidade FROM medicamentos ORDER BY id DESC").fetchall()
@@ -123,6 +123,18 @@ def serve_calendario():
 @app.route('/<path:path>')
 def static_files(path):
     return send_from_directory(app.static_folder, path)
+
+@app.route("/api/dados/<int:id>", methods=["PUT"])
+def atualizar_dados(id):
+    dados = request.get_json()
+    novo_texto = dados.get("texto", "").strip()
+    if not novo_texto:
+        return jsonify({"erro": "Texto vazio"}), 400
+
+    db = config.get_db()
+    db.execute("UPDATE diario SET texto = ? WHERE id = ?", (novo_texto, id))
+    db.commit()
+    return jsonify({"status": "sucesso", "id": id, "texto": novo_texto})
 
 if __name__ == "__main__":
     config.init_db()

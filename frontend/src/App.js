@@ -14,6 +14,13 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [dados, setDados] = useState({ remedios: [], diarios: [] });
   const [selectedDate, setSelectedDate] = useState(null);
+  const [editandoId, setEditandoId] = useState(null);
+  const [novoTexto, setNovoTexto] = useState("");
+
+  const iniciarEdicao = (id, texto) => {
+    setEditandoId(id);
+    setNovoTexto(texto);
+  };
 
   useEffect(() => {
     fetch('http://localhost:5000/api/dados')
@@ -62,9 +69,32 @@ function App() {
     ? dados.remedios.filter(r => r.data === selectedDate.toISOString().split("T")[0])
     : [];
 
+  const salvarEdicao = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/dados/${editandoId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: novoTexto }),
+      });
+      if (!res.ok) throw new Error("Erro ao salvar");
+      const data = await res.json();
+
+      setDados(prev => ({
+        ...prev,
+        diarios: prev.diarios.map(d =>
+          d.id === editandoId ? { ...d, texto: data.texto } : d
+        )
+      }));
+      setEditandoId(null);
+    } catch (error) {
+      alert("Falha ao salvar a edição");
+      console.error(error);
+    }
+  };
+
 
   return (
-    <div class="calendario">
+    <div className="calendario">
       <h2>Histórico</h2>
 
       <img 
@@ -92,7 +122,31 @@ function App() {
             <ul>
               {filteredDiarios.map((e, i) => {
                 const dataFormatada = e.date ? format(parseISO(e.date), 'dd/MM/yyyy') : 'Data inválida';
-                return <li key={i}><strong>{dataFormatada}</strong>: {e.texto}</li>;
+                return (
+                  <li key={i}>
+                    {editandoId === e.id ? (
+                      <>
+                        <textarea
+                          value={novoTexto}
+                          onChange={(ev) => setNovoTexto(ev.target.value)}
+                          rows={4}
+                          style={{ width: "250px", resize: "vertical", padding: "8px", fontSize: "1rem", borderRadius: "6px", border: "1px solid #ccc", height: "150px"}}
+                        />
+                        <div className="buttons">
+                          <button onClick={salvarEdicao}>Salvar</button>
+                          <button onClick={() => setEditandoId(null)}>Cancelar</button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <strong>{dataFormatada}</strong>
+                        <br />
+                        <p>{e.texto}</p>
+                        <button onClick={() => iniciarEdicao(e.id, e.texto)}>Editar</button>
+                      </>
+                    )}
+                  </li>
+                );
               })}
             </ul>
           ) : (
@@ -104,7 +158,7 @@ function App() {
             <ul className="remedios-list">
               {filteredRemedios.map((e, i) => {
                 const dataFormatada = e.data ? format(parseISO(e.data), 'dd/MM/yyyy') : 'Data inválida';
-                return <li key={i}><strong>{dataFormatada}</strong>: {e.tomou ? 'Tomou' : 'Não tomou'}</li>;
+                return <li key={i}><strong>{dataFormatada}</strong> {e.tomou ? 'Tomou' : 'Não tomou'}</li>;
               })}
             </ul>
           ) : (
@@ -112,7 +166,6 @@ function App() {
           )}
         </>
       )}
-      <button className="botao" onClick={() => window.history.back()}>Voltar</button>
     </div>
   );
 }
