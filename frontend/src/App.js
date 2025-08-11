@@ -64,8 +64,8 @@ function App() {
 
 
   return (
-    <div class="calendario" style={{ padding: "20px" }}>
-      <h2>Linha do Tempo ❤️</h2>
+    <div class="calendario">
+      <h2>Histórico</h2>
 
       <img 
         src={darkMode ? moonIcon : sun}
@@ -80,6 +80,8 @@ function App() {
         highlightDates={highlightDates}
         locale="pt-BR"
         dateFormat="dd-MM-yyyy"
+        showIcon
+        toggleCalendarOnIconClick
         placeholderText="Escolha uma data"
       />
 
