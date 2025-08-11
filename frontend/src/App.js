@@ -166,6 +166,7 @@ function App() {
           )}
         </>
       )}
+      <button className="botao" onClick={() => window.history.back()}>Voltar</button>
     </div>
   );
 }

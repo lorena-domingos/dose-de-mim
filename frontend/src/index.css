@@ -162,8 +162,13 @@ li > div.buttons {
 }
 
 body, #root {
-  overflow-x: hidden;
   width: 100vw;
+}
+
+.botao {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
 }
 
 
