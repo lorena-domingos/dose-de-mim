@@ -1,3 +1,5 @@
+from functools import reduce
+
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify, send_from_directory
 from flask_cors import CORS
 from datetime import datetime
@@ -135,6 +137,12 @@ def atualizar_dados(id):
     db.execute("UPDATE diario SET texto = ? WHERE id = ?", (novo_texto, id))
     db.commit()
     return jsonify({"status": "sucesso", "id": id, "texto": novo_texto})
+
+@app.route('/backup')
+def backup():
+    config.backup()
+    flash("Backup feito com sucesso!", "sucesso")
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     config.init_db()

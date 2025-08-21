@@ -1,7 +1,11 @@
+import glob
 import os, sqlite3
 from flask import g
+from datetime import datetime
 
 DATABASE = 'database.db'
+BACKUP = 'backups'
+os.makedirs(BACKUP, exist_ok=True)
 
 def init_db():
     if not os.path.exists(DATABASE):
@@ -25,4 +29,23 @@ def close_connection(exception):
         
 def init_app(app):
     app.teardown_appcontext(close_connection)
+
+def backup():
+    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    bk = os.path.join(BACKUP, f'database_{now}.db')
+    db = get_db()
+    backup_db = sqlite3.connect(bk)
+
+    with backup_db:
+        db.backup(backup_db)
+
+    backup_db.close()
+
+    backups = sorted(glob.glob(os.path.join(BACKUP, "database_*.db")))
+    while len(backups) > 10:
+        os.remove(backups.pop(0))
+    return bk
+
+if __name__ == '__main__':
+    init_db()
     
