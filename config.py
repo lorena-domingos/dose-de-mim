@@ -1,8 +1,8 @@
-import glob
 import os, sqlite3
+import dropbox
 from flask import g
-from datetime import datetime
 
+MY_TOKEN = os.environ['Dropbox']
 DATABASE = 'database.db'
 BACKUP = 'backups'
 os.makedirs(BACKUP, exist_ok=True)
@@ -31,8 +31,7 @@ def init_app(app):
     app.teardown_appcontext(close_connection)
 
 def backup():
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    bk = os.path.join(BACKUP, f'database_{now}.db')
+    bk = os.path.join(BACKUP, f'database.db')
     db = get_db()
     backup_db = sqlite3.connect(bk)
 
@@ -41,9 +40,10 @@ def backup():
 
     backup_db.close()
 
-    backups = sorted(glob.glob(os.path.join(BACKUP, "database_*.db")))
-    while len(backups) > 10:
-        os.remove(backups.pop(0))
+    dbx = dropbox.Dropbox(MY_TOKEN)
+    with open(bk, 'rb') as f:
+        dbx.files_upload(f.read(), f"/{os.path.basename(bk)}", mode=dropbox.files.WriteMode('overwrite'))
+
     return bk
 
 if __name__ == '__main__':
