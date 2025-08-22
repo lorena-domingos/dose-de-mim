@@ -138,7 +138,7 @@ flask run
 
 * `.venv/` = ambiente virtual
 * `.env` = credenciais Dropbox se você não quiser mexer no sistema
-* `utils/get_refresh_token.py` = script mágico pra gerar token
+* `utils/dropbox_auth.py` = script mágico pra gerar token
 * `database.db` = SQLite que guarda diário e remédios
 * `controllers/` = rotas
 * `models/` = funções de acesso ao banco
