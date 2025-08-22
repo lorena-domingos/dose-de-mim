@@ -1,6 +1,17 @@
-# 💊 Dose de Mim — Mini-Guia Visual de Setup
+💊 Dose de Mim — Mini-Guia de Setup
 
-Esse guia é pra quem nunca mexeu com Flask ou Dropbox. Aqui você vai ver exatamente **onde colocar variáveis, gerar o token e rodar o servidor**.
+O Dose de Mim foi inicialmente pensado para pessoas trans manterem o registro de seu acompanhamento médico. Mas que pode ser útil para qualquer pessoa que deseja se cuidar. ❤
+
+É um app que permite:
+- Gerenciar quais medicamentos e suas quantidades está tomando
+- Escrever, editar e excluir tanto diários quanto os medicamentos e registros de remédios
+- Permite escolher a data da postagem
+- Possui a função de backup localmente ou em nuvem (Dropbox)
+- Possui uma página chamada calendário onde permite que veja de forma mais adequada seus registros e até editar os diários
+
+Este app continua em constante melhoria e junto de aprendizados, ficarei feliz caso alguém queira colaborar, seja com as suas ideias ou códigos. 🥰
+
+No momento penso em adicionar uma espécie de senha para entrar no App.
 
 ---
 
@@ -15,11 +26,9 @@ Esse guia é pra quem nunca mexeu com Flask ou Dropbox. Aqui você vai ver exata
 No terminal:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo
+git clone https://github.com/lorena-domingos/dose-de-mim.git
+cd dose-de-mim
 ```
-
-> 🖼 Imagina: a pasta do projeto agora está no seu computador com `app.py`, `controllers/`, `models/`, etc.
 
 ---
 
@@ -39,8 +48,6 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-> 🖼 Mental: você ativou um “espaço limpo” só pro projeto. Dependências não bagunçam seu Python global.
-
 ---
 
 ## 3️⃣ Instale as dependências
@@ -48,12 +55,37 @@ source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-
-> 🖼 Mental: pip vai baixar Flask, Dropbox SDK, python-dotenv, etc.
+Vai baixar Flask, Dropbox SDK, etc.
 
 ---
 
-## 4️⃣ Configure as variáveis de ambiente
+## 4️⃣ Crie seu APP no Dropbox
+
+Vai no [Dropbox Developers](https://www.dropbox.com/developers/apps) e cria um app.
+
+Escolhe o tipo de acesso que você quer: Full Dropbox (acesso a tudo) ou App Folder (uma pasta só do app).
+
+Depois de criar, vai ter App Key e App Secret — você vai precisar deles no seu script.
+
+## 5️⃣ Gerando o `REFRESH_TOKEN` do Dropbox
+
+_Lembrando que irá precisar do App Key e App Secret para gerar o Refresh Token._
+
+1. Navegue até a pasta do projeto.
+2. Rode:
+
+```bash
+python utils/dropbox_auth.py
+```
+
+3. O navegador vai abrir pedindo login no Dropbox.
+4. No final, o script mostra o `REFRESH_TOKEN`.
+
+🔑 Copie e coloque no `.env` ou nas variáveis do sistema.
+
+---
+
+## 6️⃣ Configure as variáveis de ambiente
 
 Você tem **duas opções**:
 
@@ -75,8 +107,6 @@ export APP_SECRET="seu_app_secret"
 export REFRESH_TOKEN="seu_refresh_token"
 ```
 
-> 🖼 Mental: o sistema agora “sabe” suas credenciais do Dropbox.
-
 ---
 
 ### 🔹 Opção B: Arquivo `.env`
@@ -90,28 +120,11 @@ APP_SECRET=sua_app_secret
 REFRESH_TOKEN=seu_refresh_token
 ```
 
-> 🖼 Mental: o script em `utils` lê isso automaticamente, sem precisar mexer no sistema.
-
 ---
 
-## 5️⃣ Gerando o `REFRESH_TOKEN` do Dropbox
 
-1. Abra o terminal no projeto.
-2. Rode:
 
-```bash
-python utils/dropbox_auth.py
-```
-
-3. O navegador vai abrir pedindo login no Dropbox.
-4. No final, o script mostra o `REFRESH_TOKEN`.
-
-> 🖼 Mental: você acabou de criar a chave que o app vai usar pra fazer backup.
-> 🔑 Copie e coloque no `.env` ou nas variáveis do sistema.
-
----
-
-## 6️⃣ Rodando o servidor Flask
+## 7️⃣ Rodando o servidor Flask
 
 No terminal, com o ambiente virtual ativo:
 
@@ -119,19 +132,15 @@ No terminal, com o ambiente virtual ativo:
 flask run
 ```
 
-> 🖼 Mental: Flask vai subir o site.
-> Abra o navegador em: [http://localhost:5000](http://localhost:5000)
+Flask vai subir o site. Abra o navegador em: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 7️⃣ Visualizando a página
+## 8️⃣ Visualizando a página
 
 * A página inicial mostra seu diário e remédios.
 * O botão de **Histórico / Calendário** abre a página de histórico (React).
-* Todas alterações salvam no **SQLite** e fazem backup no **Dropbox**.
-
-> 🖼 Mental: tudo funcionando! Texto, remédio, diário e backup automático.
-
+* Todas alterações salvam no **SQLite** e fazem backup no **Dropbox** ou localmente.
 ---
 
 ## ✅ Dicas visuais rápidas
