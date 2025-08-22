@@ -9,8 +9,8 @@
 </head>
 <body>
     <header>
-      <a href="{{ url_for('serve_calendario')}}">Histórico❤️ / </a>
-        <a href="{{ url_for('backup') }}">Backup</a>
+      <a href="{{ url_for('main.serve_calendario')}}">Histórico❤️ / </a>
+        <a href="{{ url_for('main.backup') }}">Backup</a>
     </header>
     <main>
       <div class="bloco-1">
@@ -64,16 +64,16 @@
             {% for d in diarios %}
             <li>
               {% if d.id == editando %}
-              <form method="POST" action="{{ url_for('atualizar_diario', id=d.id) }}">
+              <form method="POST" action="{{ url_for('main.atualizar_diario', id=d.id) }}">
                 <!-- <input type="hidden" name="data" value="{{ d.data }}"> -->
                 <textarea name="texto" rows="4" cols="50">{{ d.texto }}</textarea><br>
                 <button type="submit">Salvar</button>
-                <a href="{{ url_for('index') }}">Cancelar</a>
+                <a href="{{ url_for('main.index') }}">Cancelar</a>
               </form>
               {% else %}
               {{ d.data }}
               <button onclick="openModal(`{{ d.texto | escape }}`)">Ler</button>
-              <a href="{{ url_for('index', editando=d.id) }}">Editar</a>
+              <a href="{{ url_for('main.index', editando=d.id) }}">Editar</a>
               <a href="javascript:void(0);" onclick="askDelete('/delete_diario/{{ d.id }}')">Apagar</a>
               {% endif %}
             </li>

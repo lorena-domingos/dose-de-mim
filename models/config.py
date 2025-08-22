@@ -2,7 +2,9 @@ import os, sqlite3
 import dropbox
 from flask import g
 
-MY_TOKEN = os.environ['Dropbox']
+APP_KEY = os.environ['APP_KEY']
+APP_SECRET = os.environ['APP_SECRET']
+REFRESH_TOKEN = os.environ['REFRESH_TOKEN']
 DATABASE = 'database.db'
 BACKUP = 'backups'
 os.makedirs(BACKUP, exist_ok=True)
@@ -40,7 +42,11 @@ def backup():
 
     backup_db.close()
 
-    dbx = dropbox.Dropbox(MY_TOKEN)
+    dbx = dropbox.Dropbox(
+        app_key=APP_KEY,
+        app_secret=APP_SECRET,
+        oauth2_refresh_token=REFRESH_TOKEN
+    )
     with open(bk, 'rb') as f:
         dbx.files_upload(f.read(), f"/{os.path.basename(bk)}", mode=dropbox.files.WriteMode('overwrite'))
 
