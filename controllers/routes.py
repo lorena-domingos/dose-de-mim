@@ -124,5 +124,4 @@ def atualizar_dados(id):
 @main.route('/backup')
 def backup():
     config.backup()
-    flash("Backup feito com sucesso!", "sucesso")
     return redirect(url_for("main.index"))

@@ -3,7 +3,7 @@
 :root {
     --default-font: "Quicksand", sans-serif;
     --white-mode-color: #60c7c7;
-    --black-mode-color: #0a004cff;
+    --black-mode-color: #04001d;
     --white-mode-text-border: #000;
     --black-mode-text-border: #fff;
     --black-mode-button: #0000ff;
@@ -105,8 +105,9 @@ textarea {
 button {
   align-self: center;
   margin-bottom: 20px;
-  padding: 3px 25px;
+  padding: 2px 15px;
   border: double 10px var(--white-mode-color);
+  border-radius: 0.5em;
   cursor: pointer;
   font-weight: bold;
   font-size: 1.1rem;
@@ -288,12 +289,12 @@ body.dark-mode a {
 }
 
 .mensagem-erro {
-  color: #296f3a;
+  color: #ffffff;
   position: fixed;
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #d4edda;
+  background-color: #d42542;
   border: 1px solid #c3e6cb;
   padding: 15px;
   border-radius: 5px;
@@ -305,12 +306,12 @@ body.dark-mode a {
 }
 
 .mensagem-info {
-  color: #296f3a;
+  color: #ffffff;
   position: fixed;
   top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #d4edda;
+  background-color: #0e2cec;
   border: 1px solid #c3e6cb;
   padding: 15px;
   border-radius: 5px;
@@ -357,6 +358,17 @@ header a:hover {
   transition: all 0.4s ease-in-out;
 }
 
+.icon {
+  display: none;
+}
+
+#menu {
+  display: inline-flex;
+  align-items: center;
+  list-style-type: none;
+  gap: 20px;
+}
+
 @media (max-width: 768px) {
   main {
     grid-template-columns: 1fr;
@@ -391,4 +403,60 @@ header a:hover {
   .conteudo-1, .conteudo-2 {
     width: 330px;
   }
-}
+
+  .icon {
+    display: block;
+  }
+
+    #menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%);
+      background-color: #fff;
+      color: #333;
+      list-style: none;
+      border-radius: 0.75em;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      padding: 0.5em 0;
+      margin: 0;
+      display: none;
+      animation: fade 0.1s linear;
+      text-align: center;
+    }
+  
+    #menu.show {
+      display: block;
+    }
+  
+    #menu li {
+      width: 100%;
+    }
+  
+    #menu a {
+      display: block;
+      width: 100%;
+      padding: 0.5em 1em;
+      text-decoration: none;
+      color: #333;
+      border-radius: 0.5em;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+  
+    #menu a:hover {
+      background: #f2f2f2;
+      color: #000;
+    }
+  
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+  
+      to {
+        opacity: 1;
+      }
+    }
+  
+    }

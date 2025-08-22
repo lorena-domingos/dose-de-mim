@@ -62,3 +62,8 @@ sun.addEventListener("click", function () {
         localStorage.setItem("modo", "dark");
     }
 });
+
+function toggleMenu() {
+  const menu = document.getElementById("menu");
+  menu.classList.toggle("show");
+}

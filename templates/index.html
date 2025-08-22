@@ -6,12 +6,22 @@
     <title>Dose de Mim</title>
     <link rel="shortcut icon" href="../static/img/favicon.svg" type="image/x-icon">
     <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
-      <a href="{{ url_for('main.serve_calendario')}}">Histórico❤️ / </a>
-        <a href="{{ url_for('main.backup') }}">Backup</a>
+      <nav>
+        <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+          <i class="fa fa-bars"></i>
+        </a>
+        <ul id="menu">
+          <li><a href="{{ url_for('main.serve_calendario')}}">Histórico</a></li>
+          <li>⭐</li>
+          <li><a href="{{ url_for('main.backup') }}">Backup</a></li>
+        </ul>
+      </nav>
     </header>
+
     <main>
       <div class="bloco-1">
         <div class="formulario">
@@ -65,7 +75,6 @@
             <li>
               {% if d.id == editando %}
               <form method="POST" action="{{ url_for('main.atualizar_diario', id=d.id) }}">
-                <!-- <input type="hidden" name="data" value="{{ d.data }}"> -->
                 <textarea name="texto" rows="4" cols="50">{{ d.texto }}</textarea><br>
                 <button type="submit">Salvar</button>
                 <a href="{{ url_for('main.index') }}">Cancelar</a>
@@ -109,16 +118,7 @@
         </div>
       </div>
 
-      <!-- Mensagem de Confirmação -->
-<!--      {% with mensagens = get_flashed_messages() %}-->
-<!--      {% if mensagens %}-->
-<!--      <div class="mensagem-sucesso">-->
-<!--        {{ mensagens[0] }}-->
-<!--      </div>-->
-<!--      {% endif %}-->
-<!--      {% endwith %}-->
-
-      <!-- Mensagem de Erro -->
+      <!-- Mensagens -->
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% for category, message in messages %}
       <div class="mensagem-{{ category }}">{{ message }}</div>
