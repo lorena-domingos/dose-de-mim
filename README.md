@@ -152,3 +152,8 @@ Flask vai subir o site. Abra o navegador em: [http://localhost:5000](http://loca
 * `controllers/` = rotas
 * `models/` = funções de acesso ao banco
 
+## Calendário
+
+Aqui é onde a página de calendário feita com React fica. Onde a sua ‘build’ é colocada em `static/calendario`.
+
+[Repositório](https://github.com/lorena-domingos/dose-de-mim-calendario)
